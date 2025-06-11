@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HighKing Order Management (Staff)</title>
+    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="shortcut icon" href="logo.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Additional styles for staff-orders.html */
+        .order-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap; /* Allow buttons to wrap */
+        }
+        .order-actions .action-button {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            white-space: nowrap; /* Prevent button text from wrapping */
+        }
+        .order-actions .prepare-button {
+            background-color: #ffc72c; /* Yellow */
+            color: #bc002d; /* HighKing Red */
+        }
+        .order-actions .prepare-button:hover {
+            background-color: #ffe066;
+        }
+        .order-actions .complete-button {
+            background-color: #28a745; /* Green */
+            color: white;
+        }
+        .order-actions .complete-button:hover {
+            background-color: #218838;
+        }
+        .order-actions .reset-button {
+            background-color: #6c757d; /* Grey */
+            color: white;
+        }
+        .order-actions .reset-button:hover {
+            background-color: #5a6268;
+        }
+        .delete-order-button { /* Style for individual delete button */
+            background-color: #dc3545; /* Red */
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            margin-left: auto; /* Push to the right */
+        }
+        .delete-order-button:hover {
+            background-color: #c82333;
+        }
+
+        .delete-completed-button {
+            background-color: #dc3545; /* Red for delete all completed */
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+            /* margin-left: auto; Removed to allow it to sit naturally */
+        }
+        .delete-completed-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="kiosk-header">
+        <img src="logo.png" alt="HighKing Logo" class="logo">
+        <div>
+            <h1>HighKing Order Management</h1>
+            <p>Manage current and past orders.</p>
+        </div>
+    </header>
+
+    <main class="kiosk-main" style="display: flex; flex-direction: column; gap: 20px;">
+        <div class="order-controls" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; flex-wrap: wrap; gap: 10px;">
+            <!-- Removed button as per user request -->
+            <!-- <button id="backToStaffMenuButton" class="checkout-button" style="background-color: #999; color: white;">Back to Staff Menu</button> -->
+            <h2>Current Orders</h2>
+            <button id="refreshOrdersButton" class="checkout-button">Refresh Orders</button>
+            <button id="deleteAllCompletedOrdersButton" class="delete-completed-button">Delete All Completed Orders</button>
+        </div>
+        <div class="orders-grid" id="ordersGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            <!-- Orders will be dynamically loaded here by staff-orders.js -->
+        </div>
+    </main>
+
+    <script src="staff-orders.js" defer></script>
+</body>
+</html>

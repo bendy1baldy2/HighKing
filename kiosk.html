@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HighKing Self-Service Kiosk (Standalone)</title>
+    <!-- Favicon link: Now uses 'logo.png' for the browser tab icon. -->
+    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="shortcut icon" href="logo.png" type="image/png">
+    <!-- Link to the external CSS file (reusing existing style.css) -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Start Menu Modal (показан по умолчанию при запуске) -->
+    <div id="startMenuModal" class="modal">
+        <div class="modal-overlay"></div> <!-- Перекрытие для затемнения -->
+        <h2>Welcome to HighKing Kiosk!</h2>
+        <p>Your fast way to order delicious meals.</p>
+        <button id="startButton">Start Your Order</button>
+    </div>
+
+    <!-- Kiosk Header (изначально скрыт, показывается после нажатия "Start Your Order") -->
+    <header class="kiosk-header" style="display: none;">
+        <img src="logo.png" alt="HighKing Logo" class="logo">
+        <div>
+            <h1>HighKing Self-Service Kiosk</h1>
+            <p>Your fast way to order delicious meals.</p>
+        </div>
+    </header>
+
+    <!-- Main Kiosk Content Area (изначально скрыт, показывается после нажатия "Start Your Order") -->
+    <div class="kiosk-main" style="display: none;">
+        <!-- Category Sidebar -->
+        <aside class="category-sidebar">
+            <h2>Categories</h2>
+            <ul>
+                <li><button class="category-button active" data-category="burgers">Burgers</button></li>
+                <li><button class="category-button" data-category="chicken">Chicken & Fish</button></li>
+                <li><button class="category-button" data-category="sides">Sides & Fries</button></li>
+                <li><button class="category-button" data-category="drinks">Drinks</button></li>
+                <li><button class="category-button" data-category="desserts">Desserts</button></li>
+                <li><button class="category-button" data-category="breakfast">Breakfast</button></li>
+                <li><button class="category-button" data-category="happy_meal">Happy Meal®</button></li>
+            </ul>
+        </aside>
+
+        <!-- Menu Item Display Area -->
+        <main class="menu-display">
+            <h2 id="current-category-title">Burgers</h2>
+            <div class="menu-grid" id="menu-items-container">
+                <!-- Burger items will be dynamically loaded here by JavaScript -->
+                <div class="menu-item-card" data-item-id="big-mac" data-category="burgers">
+                    <img src="https://via.placeholder.com/200x120?text=Big+Mac" alt="Big Mac">
+                    <h3>Big Mac®</h3>
+                    <p class="price">£4.19</p>
+                </div>
+                <div class="menu-item-card" data-item-id="quarter-pounder" data-category="burgers">
+                    <img src="https://via.placeholder.com/200x120?text=Quarter+Pounder" alt="Quarter Pounder">
+                    <h3>Quarter Pounder® w/ Cheese</h3>
+                    <p class="price">£4.49</p>
+                </div>
+                <div class="menu-item-card" data-item-id="cheeseburger" data-category="burgers">
+                    <img src="https://via.placeholder.com/200x120?text=Cheeseburger" alt="Cheeseburger">
+                    <h3>Cheeseburger</h3>
+                    <p class="price">£1.69</p>
+                </div>
+                <div class="menu-item-card" data-item-id="double-cheeseburger" data-category="burgers">
+                    <img src="https://via.placeholder.com/200x120?text=Double+Cheeseburger" alt="Double Cheeseburger">
+                    <h3>Double Cheeseburger</h3>
+                    <p class="price">£2.29</p>
+                </div>
+                <div class="menu-item-card" data-item-id="mcplant" data-category="burgers">
+                    <img src="https://via.placeholder.com/200x120?text=McPlant" alt="McPlant">
+                    <h3>McPlant®</h3>
+                    <p class="price">£4.39</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Shopping Cart and Checkout Footer (изначально скрыт, показывается после нажатия "Start Your Order") -->
+    <footer class="kiosk-footer" style="display: none;">
+        <div class="cart-summary">
+            Items in Cart: <span id="cart-item-count">0</span> | Total: <span id="cart-total">£0.00</span>
+        </div>
+        <button class="cancel-button" id="cancelOrderButton">Cancel Order</button>
+        <button class="checkout-button">Review Order & Pay</button>
+    </footer>
+
+    <!-- Item Details Modal (hidden by default) -->
+    <div id="itemDetailModal" class="modal">
+        <div class="modal-overlay"></div> <!-- Overlay for dimming -->
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <img id="modal-item-image" src="" alt="Menu Item">
+            <h3 id="modal-item-name"></h3>
+            <p id="modal-item-description"></p>
+            <p class="price" id="modal-item-price"></p>
+            <div class="modal-actions">
+                <button id="add-to-cart-button">Add to Cart</button>
+                <button class="close-button">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal (hidden by default) -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-overlay"></div> <!-- Overlay for dimming -->
+        <div class="modal-content">
+            <span class="close-button" id="closePaymentModal">&times;</span>
+            <h3>Choose Payment Method</h3>
+            <div class="payment-total">Total: <span id="paymentAmount">£0.00</span></div>
+            <div class="payment-options">
+                <button id="payByCard">Pay by Card</button>
+                <button id="payByCash">Pay by Cash</button>
+                <button id="payByMobile">Pay by Mobile App</button>
+            </div>
+            <p id="paymentStatusMessage" style="display: none;"></p>
+        </div>
+    </div>
+
+    <!-- Link to the standalone Kiosk JavaScript file -->
+    <script src="kiosk.js" defer></script>
+
+</body>
+</html>

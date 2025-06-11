@@ -1,0 +1,8 @@
+ __________________________________________________________
+|To use kiosk, open "index.html", and select HighKing Kiosk|
+|------------------------------------------|---------------
+|To manage orders, open "staff-orders.html"|
+|-----------------------------------_______|
+|To view orders, open "orders.html"|_______|__________________________________________________________________
+|To use Staff Menu, in kiosk, click "Staff Login" and then type "1234" for low level and "4321" for high level|
+--------------------------------------------------------------------------------------------------------------

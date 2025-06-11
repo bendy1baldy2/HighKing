@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HighKing Self-Service Kiosk</title>
+    <!-- Favicon link: Now uses 'logo.png' for the browser tab icon. -->
+    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="shortcut icon" href="logo.png" type="image/png">
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Global Staff Access Button Container (always present, visibility managed by JS) -->
+    <div id="globalStaffAccessButtonContainer">
+        <button id="staffLoginButton">Staff Login</button>
+    </div>
+
+    <!-- BIOS Emulation Modal (Kept for consistency in structure, but display:none in CSS) -->
+    <div id="biosModal" class="modal">
+        <div class="modal-overlay"></div> <!-- Overlay for dimming -->
+        <div class="bios-text" id="biosTextDisplay">
+            <!-- BIOS text will be typed here -->
+        </div>
+    </div>
+
+    <!-- Kiosk Booting Modal (Kept for consistency in structure, but display:none in CSS) -->
+    <div id="kioskBootModal" class="modal">
+        <div class="modal-overlay"></div> <!-- Overlay for dimming -->
+        <div class="boot-text" id="kioskBootTextDisplay">
+            <!-- Kiosk boot text will be typed here -->
+        </div>
+    </div>
+
+    <!-- System Selection Modal -->
+    <div id="systemSelectionModal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="selection-header">
+            Please select a system to boot:
+        </div>
+        <div class="system-option active" data-system="kiosk">HighKing Kiosk</div>
+        <div class="system-option" data-system="highdesktop">HighDesktop</div>
+        <div class="system-option" data-system="highbios">HighBIOS</div>
+        <div class="countdown" id="systemSelectionCountdown">Booting HighKing Kiosk in 5...</div>
+    </div>
+
+    <!-- HighDesktop Modal -->
+    <div id="highDesktopModal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="desktop-content">
+            <!-- Desktop icons -->
+            <div class="desktop-icons">
+                <div class="desktop-icon" data-app="highking-kiosk">
+                    <img src="logo.png" alt="HighKing Kiosk Icon">
+                    <span>HighKing Kiosk</span>
+                </div>
+                <!-- Removed Staff Login icon as per user request -->
+            </div>
+            
+            <!-- Taskbar -->
+            <div class="desktop-taskbar">
+                <button id="startButtonDesktop" class="start-button">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM12 4C16.4183 4 20 7.58172 20 12C20 16.4183 16.4183 20 12 20C7.58172 20 4 16.4183 4 12C4 7.58172 7.58172 4 12 4ZM10 7V17L17 12L10 7Z" fill="white"/>
+                    </svg>
+                    Start
+                </button>
+                <div class="taskbar-center">
+                    <!-- Taskbar items -->
+                </div>
+                <div class="taskbar-right">
+                    <span id="desktopTime"></span>
+                </div>
+            </div>
+            <!-- Start Menu -->
+            <div id="startMenu" class="start-menu">
+                <h3>Start Menu</h3>
+                <ul>
+                    <li><button class="start-menu-item" data-app="highking-kiosk">HighKing Kiosk</button></li>
+                    <li><button class="start-menu-item" data-app="settings">Settings</button></li>
+                    <li><button class="start-menu-item" data-app="desktop-logout">Logout</button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-overlay"></div> <!-- Overlay for dimming -->
+        <div class="modal-content">
+            <span class="close-button" id="closeSettingsModal">&times;</span>
+            <h3>Settings</h3>
+            <div class="settings-info">
+                <p><strong>Company:</strong> HighKing</p>
+                <p><strong>BIOS:</strong> HighBIOS</p>
+                <p><strong>BIOS Version:</strong> 1.0-HighBIOS</p>
+            </div>
+            <div class="settings-action">
+                <button id="syncTouchScreenButton">Synchronize Touch Screen</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Start Menu Modal (initially hidden by JS after BIOS) -->
+    <div id="startMenuModal" class="modal">
+        <div class="modal-overlay"></div> <!-- Overlay for dimming -->
+        <h2>Welcome to HighKing Kiosk!</h2>
+        <p>Your fast way to order delicious meals.</p>
+        <button id="startButton">Start Your Order</button>
+    </div>
+
+    <!-- Staff Login Modal -->
+    <div id="staffLoginModal" class="modal">
+        <div class="modal-overlay"></div> <!-- Overlay for dimming -->
+        <div class="modal-content">
+            <span class="close-button" id="closeStaffLoginModal">&times;</span>
+            <h3>Staff Login</h3>
+            
+            <!-- Keypad input section -->
+            <div class="keypad-section">
+                <input type="password" id="staffCodeInput" placeholder="Enter Staff Code" autofocus>
+                <div class="keypad">
+                    <button data-key="1">1</button>
+                    <button data-key="2">2</button>
+                    <button data-key="3">3</button>
+                    <button data-key="4">4</button>
+                    <button data-key="5">5</button>
+                    <button data-key="6">6</button>
+                    <button data-key="7">7</button>
+                    <button data-key="8">8</button>
+                    <button data-key="9">9</button>
+                    <button data-key="clear" class="clear">Clear</button>
+                    <button data-key="0">0</button>
+                    <button data-key="enter" class="enter">Enter</button>
+                </div>
+            </div>
+
+            <p id="staffLoginMessage" style="display: none;"></p>
+        </div>
+    </div>
+
+    <!-- Staff Menu Container -->
+    <div id="staffMenuContainer" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <h3>Staff Menu</h3>
+            <button id="manageOrdersButton">Manage Orders</button>
+            <button id="viewCustomerOrdersButton">Show Orders to Customers</button>
+            <button id="closeKioskButton">Close Kiosk</button>
+            <button id="openKioskButton">Open Kiosk</button>
+            <button id="restartSystemButton">Restart System</button>
+            <button id="logoutStaffButton">Logout</button>
+            <p id="staffMessage" style="display: none; color: green; margin-top: 15px;"></p>
+        </div>
+    </div>
+
+    <!-- Kiosk Closed Message Modal -->
+    <div id="kioskClosedMessage" class="modal">
+        <div class="modal-overlay"></div> <!-- Overlay for dimming -->
+        <p>Kiosk is Closed. Please contact staff.</p>
+    </div>
+
+
+    <!-- Kiosk Header (initially hidden by default) -->
+    <header class="kiosk-header">
+        <!-- Main logo in the header, now uses 'logo.png' -->
+        <img src="logo.png" alt="HighKing Logo" class="logo">
+        <div>
+            <h1>HighKing Self-Service Kiosk</h1>
+            <p>Start your order!</p>
+        </div>
+    </header>
+
+    <!-- Main Kiosk Content Area (initially hidden by default) -->
+    <div class="kiosk-main">
+        <!-- Category Sidebar -->
+        <aside class="category-sidebar">
+            <h2>Categories</h2>
+            <ul>
+                <li><button class="category-button active" data-category="burgers">Burgers</button></li>
+                <li><button class="category-button" data-category="chicken">Chicken & Fish</button></li>
+                <li><button class="category-button" data-category="sides">Sides & Fries</button></li>
+                <li><button class="category-button" data-category="drinks">Drinks</button></li>
+                <li><button class="category-button" data-category="desserts">Desserts</button></li>
+                <li><button class="category-button" data-category="breakfast">Breakfast</button></li>
+                <li><button class="category-button" data-category="happy_meal">Happy Meal®</button></li>
+            </ul>
+        </aside>
+
+        <!-- Menu Item Display Area -->
+        <main class="menu-display">
+            <h2 id="current-category-title">Burgers</h2>
+            <div class="menu-grid" id="menu-items-container">
+                <!-- Burger items will be dynamically loaded here by JavaScript -->
+                <div class="menu-item-card" data-item-id="big-mac" data-category="burgers">
+                    <img src="https://via.placeholder.com/200x120?text=Big+Mac" alt="Big Mac">
+                    <h3>Big Mac®</h3>
+                    <p class="price">£4.19</p>
+                </div>
+                <div class="menu-item-card" data-item-id="quarter-pounder" data-category="burgers">
+                    <img src="https://via.placeholder.com/200x120?text=Quarter+Pounder" alt="Quarter Pounder">
+                    <h3>Quarter Pounder® w/ Cheese</h3>
+                    <p class="price">£4.49</p>
+                </div>
+                <div class="menu-item-card" data-item-id="cheeseburger" data-category="burgers">
+                    <img src="https://via.placeholder.com/200x120?text=Cheeseburger" alt="Cheeseburger">
+                    <h3>Cheeseburger</h3>
+                    <p class="price">£1.69</p>
+                </div>
+                <div class="menu-item-card" data-item-id="double-cheeseburger" data-category="burgers">
+                    <img src="https://via.placeholder.com/200x120?text=Double+Cheeseburger" alt="Double Cheeseburger">
+                    <h3>Double Cheeseburger</h3>
+                    <p class="price">£2.29</p>
+                </div>
+                <div class="menu-item-card" data-item-id="mcplant" data-category="burgers">
+                    <img src="https://via.placeholder.com/200x120?text=McPlant" alt="McPlant">
+                    <h3>McPlant®</h3>
+                    <p class="price">£4.39</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Shopping Cart and Checkout Footer (initially hidden by default) -->
+    <footer class="kiosk-footer">
+        <div class="cart-summary">
+            Items in Cart: <span id="cart-item-count">0</span> | Total: <span id="cart-total">£0.00</span>
+        </div>
+        <button class="cancel-button" id="cancelOrderButton">Cancel Order</button>
+        <button class="checkout-button">Review Order & Pay</button>
+    </footer>
+
+    <!-- Item Details Modal (hidden by default) -->
+    <div id="itemDetailModal" class="modal">
+        <div class="modal-overlay"></div> <!-- Overlay for dimming -->
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <img id="modal-item-image" src="" alt="Menu Item">
+            <h3 id="modal-item-name"></h3>
+            <p id="modal-item-description"></p>
+            <p class="price" id="modal-item-price"></p>
+            <div class="modal-actions">
+                <button id="add-to-cart-button">Add to Cart</button>
+                <button class="close-button">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal (hidden by default) -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-overlay"></div> <!-- Overlay for dimming -->
+        <div class="modal-content">
+            <span class="close-button" id="closePaymentModal">&times;</span>
+            <h3>Choose Payment Method</h3>
+            <div class="payment-total">Total: <span id="paymentAmount">£0.00</span></div>
+            <div class="payment-options">
+                <button id="payByCard">Pay by Card</button>
+                <button id="payByCash">Pay by Cash</button>
+                <button id="payByMobile">Pay by Mobile App</button>
+            </div>
+            <p id="paymentStatusMessage" style="display: none;"></p>
+        </div>
+    </div>
+
+    <!-- Link to the external JavaScript file -->
+    <script src="script.js" defer></script>
+
+</body>
+</html>
