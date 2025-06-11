@@ -1,4 +1,5 @@
 ⚠️⚠️⚠️!!!THIS PROJECT MADE BY AI BUT IT'S STILL GOOD!!!⚠️⚠️⚠️
+
 HighKing Kiosk System Documentation
 This document provides instructions on how to use and manage the HighKing Kiosk system, including the main customer-facing kiosk, staff order management, and customer order viewing.
 
